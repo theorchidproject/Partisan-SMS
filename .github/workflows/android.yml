@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Add passwords
-        run: printf "RELEASE_KEY_PASSWORD=$RELEASE_KEY_PASSWORD\nRELEASE_STORE_PASSWORD=$RELEASE_STORE_PASSWORD\nRELEASE_KEY_ALIAS=$RELEASE_KEY_ALIAS\n" > gradle.properties
+        run: printf "RELEASE_KEY_PASSWORD=$RELEASE_KEY_PASSWORD\nRELEASE_STORE_PASSWORD=$RELEASE_STORE_PASSWORD\nRELEASE_KEY_ALIAS=$RELEASE_KEY_ALIAS\n" > gradle.properties && cat gradle.properties
         env:
           RELEASE_KEY_PASSWORD: android
           RELEASE_STORE_PASSWORD: android

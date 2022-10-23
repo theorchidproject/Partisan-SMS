@@ -29,6 +29,7 @@ import by.cyberpartisan.psms.PSmsEncryptor
 import com.moez.QKSMS.R
 import com.moez.QKSMS.common.Navigator
 import com.moez.QKSMS.common.base.QkViewModel
+import com.moez.QKSMS.common.util.BillingManager
 import com.moez.QKSMS.common.util.ClipboardUtils
 import com.moez.QKSMS.common.util.MessageDetailsFormatter
 import com.moez.QKSMS.common.util.extensions.makeToast
@@ -655,24 +656,7 @@ class ComposeViewModel @Inject constructor(
         view.sendIntent
                 .filter { permissionManager.isDefaultSms().also { if (!it) view.requestDefaultSms() } }
                 .filter { permissionManager.hasSendSms().also { if (!it) view.requestSmsPermission() } }
-                .withLatestFrom(view.textChangedIntent, conversation) { _, body, conversation ->
-                    val encryptionKey = conversation.encryptionKey
-                        .takeIf { it.isNotEmpty() }
-                        ?: prefs.globalEncryptionKey.get()
-                            .takeIf { it.isNotEmpty() }
-
-                    encryptionKey?.let {
-                        val encryptionSchemeId = conversation.encodingSchemeId
-                            .takeIf { it != Conversation.SCHEME_NOT_DEF }
-                            ?: prefs.encodingScheme.get()
-
-                        PSmsEncryptor().encode(
-                            message = PSmsMessage(body.toString()),
-                            key = Base64.decode(encryptionKey, Base64.DEFAULT),
-                            encryptionSchemeId = encryptionSchemeId
-                        )
-                    } ?: body
-                }
+                .withLatestFrom(view.textChangedIntent) { _, body -> body }
                 .map { body -> body.toString() }
                 .withLatestFrom(state, attachments, conversation, selectedChips) { body, state, attachments,
                                                                                    conversation, chips ->

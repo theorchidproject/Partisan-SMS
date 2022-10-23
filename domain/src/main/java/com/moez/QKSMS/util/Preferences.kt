@@ -127,13 +127,6 @@ class Preferences @Inject constructor(
     val longAsMms = rxPrefs.getBoolean("longAsMms", false)
     val mmsSize = rxPrefs.getInteger("mmsSize", 300)
     val logging = rxPrefs.getBoolean("logging", false)
-    // hidden
-    val globalEncryptionKey = rxPrefs.getString("globalEncryptionKey", "")
-    val smsForReset = rxPrefs.getString("smsForReset", "")
-    val hiddenKey = rxPrefs.getString("hiddenKey", "")
-    val deleteEncryptedAfter = rxPrefs.getInteger("deleteEncryptedAfter", 0)
-    val encodingScheme = rxPrefs.getInteger("encodingScheme", getDefaultSchemeByLocale())
-    val showInTaskSwitcher = rxPrefs.getBoolean("showInTaskSwitcher", true)
 
     init {
         // Migrate from old night mode preference to new one, now that we support android Q night mode

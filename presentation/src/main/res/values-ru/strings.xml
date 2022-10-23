@@ -420,45 +420,4 @@
         <item>LOL</item>
         <item>Это нормально</item>
     </string-array>
-    <string name="settings_category_hidden">Партизанские настройки</string>
-    <string name="conversation_encryption_key_title">Ключ шифрования</string>
-    <string name="settings_hidden_key_title">"Пароль скрытых настроек"</string>
-    <string name="settings_delete_encrypted_after_title">Удалять зашифрованные сообщения через</string>
-    <string name="settings_delete_encrypted_after_default">Не удалять</string>
-    <string-array name="delete_message_after_labels">
-        <item>Не удалять</item>
-        <item>5 секунд</item>
-        <item>15 секунд</item>
-        <item>30 секунд</item>
-        <item>1 минута</item>
-        <item>3 минуты</item>
-        <item>5 минут</item>
-        <item>15 минут</item>
-        <item>30 минут</item>
-        <item>1 час</item>
-    </string-array>
-    <string name="settings_global_encryption_key_title">Глобальный ключ шифрования</string>
-    <string name="conversation_delete_received_after">Удалять полученные сообщения через</string>
-    <string name="conversation_delete_sent_after">Удалять отправленные сообщения через</string>
-    <string name="sms_for_reset">СМС для сброса</string>
-    <string name="encoding_scheme">Схема кодирования</string>
-    <string name="encryption_key_copied">Ключ шифрования скопирован в буфер обмена</string>
-    <string name="copy">Скопировать</string>
-    <string-array name="encoding_scheme_labels">
-        <item>Base64</item>
-        <item>Кириллическая Base64</item>
-        <item>Русские слова</item>
-    </string-array>
-    <string-array name="encoding_scheme_labels_conversation">
-        <item>Base64</item>
-        <item>Кириллическая Base64</item>
-        <item>Русские слова</item>
-        <item>Использовать Схему из Настроек</item>
-    </string-array>
-    <string name="show_in_task_switcher">Показывать содержимое приложения в переключателе задач</string>
-    <string name="channel_id">ID канала</string>
-    <string name="invalid_key">Неверный ключ</string>
-    <string name="button_generate">&#128259;</string>
-    <string name="drawer_plus">Пожертвовать</string>
-    <string name="key_description">Поделитесь этим ключом с вашим собеседником по безопасной связи</string>
 </resources>

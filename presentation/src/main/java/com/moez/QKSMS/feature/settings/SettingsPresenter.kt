@@ -127,29 +127,6 @@ class SettingsPresenter @Inject constructor(
         disposables += prefs.longAsMms.asObservable()
                 .subscribe { enabled -> newState { copy(longAsMms = enabled) } }
 
-        // hidden
-        disposables += prefs.globalEncryptionKey.asObservable()
-                .subscribe { globalEncryptionKey -> newState { copy(globalEncryptionKey = globalEncryptionKey) } }
-
-        disposables += prefs.smsForReset.asObservable()
-                .subscribe { smsForReset -> newState { copy(smsForReset = smsForReset) } }
-
-        disposables += prefs.showInTaskSwitcher.asObservable()
-                .subscribe { showInTaskSwitcher -> newState { copy(showInTaskSwitcher = showInTaskSwitcher) } }
-
-        disposables += prefs.hiddenKey.asObservable()
-                .subscribe { hiddenKey -> newState { copy(hiddenKey = hiddenKey) } }
-
-        val deleteEncryptedAfterDialogLabels = context.resources.getStringArray(R.array.delete_message_after_labels)
-        disposables += prefs.deleteEncryptedAfter.asObservable()
-                .subscribe { id -> newState { copy(deleteEncryptedAfterSummary =
-                deleteEncryptedAfterDialogLabels[id], deleteEncryptedAfterId = id) } }
-
-        val encodingSchemeDialogLabels = context.resources.getStringArray(R.array.encoding_scheme_labels)
-        disposables += prefs.encodingScheme.asObservable()
-                .subscribe { id -> newState { copy(encodingSchemeSummary =
-                encodingSchemeDialogLabels[id], encodingSchemeId = id) } }
-
         val mmsSizeLabels = context.resources.getStringArray(R.array.mms_sizes)
         val mmsSizeIds = context.resources.getIntArray(R.array.mms_sizes_ids)
         disposables += prefs.mmsSize.asObservable()
@@ -225,18 +202,6 @@ class SettingsPresenter @Inject constructor(
                         R.id.sync -> syncMessages.execute(Unit)
 
                         R.id.about -> view.showAbout()
-
-                        R.id.globalEncryptionKey -> view.showGlobalEncryptionKeyDialog(prefs.globalEncryptionKey.get())
-
-                        R.id.smsForReset -> view.showSmsForResetDialog(prefs.smsForReset.get())
-
-                        R.id.hiddenKey -> view.showHiddenKeyDialog(prefs.hiddenKey.get())
-
-                        R.id.deleteEncryptedAfter -> view.showDeleteEncryptedAfterDialog()
-
-                        R.id.encodingScheme -> view.showEncodingSchemeDialog()
-
-                        R.id.showInTaskSwitcher -> prefs.showInTaskSwitcher.set(!prefs.showInTaskSwitcher.get())
                     }
                 }
 
@@ -291,33 +256,6 @@ class SettingsPresenter @Inject constructor(
 
         view.signatureChanged()
                 .doOnNext(prefs.signature::set)
-                .autoDisposable(view.scope())
-                .subscribe()
-
-        view.autoDeleteChanged()
-                .observeOn(Schedulers.io())
-                .filter { maxAge ->
-                    if (maxAge == 0) {
-                        return@filter true
-                    }
-
-                    val counts = messageRepo.getOldMessageCounts(maxAge)
-                    if (counts.values.sum() == 0) {
-                        return@filter true
-                    }
-
-                    runBlocking { view.showAutoDeleteWarningDialog(counts.values.sum()) }
-                }
-                .doOnNext { maxAge ->
-                    when (maxAge == 0) {
-                        true -> AutoDeleteService.cancelJob(context)
-                        false -> {
-                            AutoDeleteService.scheduleJob(context)
-                            deleteOldMessages.execute(Unit)
-                        }
-                    }
-                }
-                .doOnNext(prefs.autoDelete::set)
                 .autoDisposable(view.scope())
                 .subscribe()
 
